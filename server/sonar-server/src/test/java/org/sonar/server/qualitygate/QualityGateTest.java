@@ -96,8 +96,9 @@ public class QualityGateTest {
 
   @Test
   public void toString_is_override() {
+    QualityGate underTest = new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_2));
+
     assertThat(underTest.toString()).isEqualTo("QualityGate{id=qg_id, name='qg_name', conditions=[" +
-      "Condition{metricKey='m1', operator=EQUALS, warningThreshold='2', errorThreshold='1', onLeakPeriod=false}, " +
       "Condition{metricKey='m2', operator=LESS_THAN, warningThreshold='4', errorThreshold='2', onLeakPeriod=true}" +
       "]}");
   }
@@ -113,7 +114,8 @@ public class QualityGateTest {
     assertThat(underTest).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, emptySet()));
     assertThat(underTest).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_1)));
     assertThat(underTest).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_2)));
-    assertThat(underTest).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_1, CONDITION_2, new Condition("new", Condition.Operator.GREATER_THAN, "a", "b", false))));
+    assertThat(underTest).isNotEqualTo(
+      new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_1, CONDITION_2, new Condition("new", Condition.Operator.GREATER_THAN, "a", "b", false))));
   }
 
   @Test
@@ -127,6 +129,7 @@ public class QualityGateTest {
     assertThat(underTest.hashCode()).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, emptySet()).hashCode());
     assertThat(underTest.hashCode()).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_1)).hashCode());
     assertThat(underTest.hashCode()).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_2)).hashCode());
-    assertThat(underTest.hashCode()).isNotEqualTo(new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_1, CONDITION_2, new Condition("new", Condition.Operator.GREATER_THAN, "a", "b", false))).hashCode());
+    assertThat(underTest.hashCode()).isNotEqualTo(
+      new QualityGate(QUALIGATE_ID, QUALIGATE_NAME, ImmutableSet.of(CONDITION_1, CONDITION_2, new Condition("new", Condition.Operator.GREATER_THAN, "a", "b", false))).hashCode());
   }
 }
