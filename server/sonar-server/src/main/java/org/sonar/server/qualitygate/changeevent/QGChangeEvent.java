@@ -19,24 +19,30 @@
  */
 package org.sonar.server.qualitygate.changeevent;
 
+import java.util.Optional;
+import java.util.function.Supplier;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.config.Configuration;
 import org.sonar.db.component.BranchDto;
 import org.sonar.db.component.ComponentDto;
 import org.sonar.db.component.SnapshotDto;
+import org.sonar.server.qualitygate.EvaluatedQualityGate;
 
 public class QGChangeEvent {
   private final ComponentDto project;
   private final BranchDto branch;
   private final SnapshotDto analysis;
   private final Configuration projectConfiguration;
+  private final Supplier<Optional<EvaluatedQualityGate>> qualityGateSupplier;
 
-  public QGChangeEvent(ComponentDto project, BranchDto branch, SnapshotDto analysis, Configuration projectConfiguration) {
+  public QGChangeEvent(ComponentDto project, BranchDto branch, SnapshotDto analysis, Configuration projectConfiguration,
+    Supplier<Optional<EvaluatedQualityGate>> qualityGateSupplier) {
     this.branch = branch;
     this.project = project;
     this.analysis = analysis;
     this.projectConfiguration = projectConfiguration;
+    this.qualityGateSupplier = qualityGateSupplier;
   }
 
   public BranchDto getBranch() {
@@ -55,13 +61,18 @@ public class QGChangeEvent {
     return projectConfiguration;
   }
 
+  public Supplier<Optional<EvaluatedQualityGate>> getQualityGateSupplier() {
+    return qualityGateSupplier;
+  }
+
   @Override
   public String toString() {
     return "QGChangeEvent{" +
-      "branch=" + toString(branch) +
-      ", project=" + toString(project) +
+      "project=" + toString(project) +
+      ", branch=" + toString(branch) +
       ", analysis=" + toString(analysis) +
       ", projectConfiguration=" + projectConfiguration +
+      ", qualityGateSupplier=" + qualityGateSupplier +
       '}';
   }
 
